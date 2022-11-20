@@ -61,6 +61,19 @@ namespace LibraryApp.Services
                 throw new Exception(ex.Message + ex.StackTrace);
             }
         }
+        public BookTb GetBooksFromBarCode(string barcode)
+        {
+            try
+            {
+                BookTb books = null;
+                books = bookRepository.GetBooksFromBarCodeRepo(barcode);
+                return books;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message + ex.StackTrace);
+            }
+        }
 
         public async Task<BookTbDto> CreateBook (BookTbDto book)
         {

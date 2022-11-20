@@ -62,6 +62,24 @@ namespace LibraryApp.Repositories
                 throw new Exception(ex.Message + ex.StackTrace);
             }
         }
+        public BookTb GetBooksFromBarCodeRepo(string barcode)
+        {
+            try
+            {
+                BookTb book = null;
+                book = (from books in _context.BookTbs where books.BarCode.Equals(barcode) select books).FirstOrDefault();
+                var rentList = (from rents in _context.RentTbs where rents.IdBook.Equals(book.IdBook) select rents).ToList();
+                foreach (var rent in rentList)
+                {
+                    book.RentTbs.Add(rent);
+                }
+                return book;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message + ex.StackTrace);
+            }
+        }
         public BookTb GetBooksFromIdRepo(int id)
         {
             try
