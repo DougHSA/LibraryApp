@@ -33,6 +33,20 @@ namespace LibraryApp.Repositories
             }
         }
 
+        public IEnumerable<RentTb> GetAllRentsStatusRepo(string status)
+        {
+            try
+            {
+                IEnumerable<RentTb> rents = null;
+                rents = (from rent in _context.RentTbs where rent.Status.Equals(status) select rent).ToList();
+                return rents;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message + ex.StackTrace);
+            }
+        }
+
         public IEnumerable<RentTb> GetRentsFromRenterCpfRepo(long cpf)
         {
             try

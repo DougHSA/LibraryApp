@@ -51,7 +51,26 @@ namespace LibraryApp.Controllers
                 return BadRequest(ex.Message + ex.StackTrace);
             }
         }
-
+        [HttpGet("GetAllRentsStatus/{status}")]
+        public async Task<ActionResult> GetAllRentsStatus([FromRoute] string status)
+        {
+            _logger.LogInformation("GetAllRentsStatus");
+            try
+            {
+                var rents = rentService.GetAllRentsStatus(status).ToList();
+                if (rents == null)
+                {
+                    _logger.LogWarning("No Content");
+                    return NoContent();
+                }
+                return Ok(rents);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message + ex.StackTrace);
+                return BadRequest(ex.Message + ex.StackTrace);
+            }
+        }
         [HttpGet("GetRentsFromRenterCpf/{cpf}")]
         public async Task<ActionResult> GetRentsFromRenterCpf([FromRoute] long cpf)
         {
@@ -141,7 +160,7 @@ namespace LibraryApp.Controllers
             }
         }
 
-        [HttpPut]
+        [HttpPut("ReturnBook")]
         public async Task<ActionResult> ReturnBook([FromBody] RentTb rent)
         {
             _logger.LogInformation("ReturnBook");

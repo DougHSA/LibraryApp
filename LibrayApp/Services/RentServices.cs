@@ -38,6 +38,18 @@ namespace LibraryApp.Services
                 throw new Exception(ex.Message + ex.StackTrace);
             }
         }
+        public IEnumerable<RentTb> GetAllRentsStatus(string status)
+        {
+            try
+            {
+                IEnumerable<RentTb> rents = rentRepository.GetAllRentsStatusRepo(status);
+                return rents;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message + ex.StackTrace);
+            }
+        }
 
         public IEnumerable<RentTb> GetRentsFromRenterCpf(long cpf)
         {
@@ -115,9 +127,9 @@ namespace LibraryApp.Services
             {
                 RentTb rents = null;
 
-                var book = bookRepository.GetBooksFromIdRepo(rent.IdBook);
-
                 rents = await rentRepository.ReturnBookRepo(rent);
+
+                var book = bookRepository.GetBooksFromIdRepo(rent.IdBook);
 
                 book.RentedQuantity += 1;
 
