@@ -1,7 +1,6 @@
 ﻿using LibraryApp.Data;
 using LibraryApp.Dto.Book;
 using LibraryApp.Models;
-using LibraryApp.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
