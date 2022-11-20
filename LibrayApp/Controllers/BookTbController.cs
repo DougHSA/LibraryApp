@@ -77,6 +77,29 @@ namespace LibraryApp.Controllers
         }
 
         [AllowAnonymous]
+        [HttpGet("GetBooksFromBarCode/{barcode}")]
+        public async Task<ActionResult> GetBooksFromBarCode([FromRoute] string barcode)
+        {
+            _logger.LogInformation("GetBooksFromBarCode");
+            try
+            {
+                var books = bookService.GetBooksFromBarCode(barcode);
+                if (books == null)
+                {
+                    _logger.LogWarning("No Content");
+                    return NotFound();
+                }
+                _logger.LogInformation($"Book '{books.Name}' returned.");
+                return Ok(books);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message + ex.StackTrace);
+                return BadRequest(ex.Message + ex.StackTrace);
+            }
+        }
+
+        [AllowAnonymous]
         [HttpGet("GetBooksFromId/{id}")]
         public async Task<ActionResult> GetBooksFromId([FromRoute] int id)
         {
