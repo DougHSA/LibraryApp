@@ -43,6 +43,7 @@ namespace LibraryApp.Controllers
                     _logger.LogWarning("No Content");
                     return NoContent();
                 }
+                _logger.LogInformation($"{books.Count} Books returned.");
                 return Ok(books);
             }
             catch (Exception ex)
@@ -59,12 +60,13 @@ namespace LibraryApp.Controllers
             _logger.LogInformation("GetBooksFromName");
             try
             {
-                var books = bookService.GetBooksFromName(name);
+                var books = bookService.GetBooksFromName(name).ToList();
                 if (books == null)
                 {
                     _logger.LogWarning("No Content");
                     return NotFound();
                 }
+                _logger.LogInformation($"{books.Count} Books returned.");
                 return Ok(books);
             }
             catch (Exception ex)
@@ -88,6 +90,7 @@ namespace LibraryApp.Controllers
                     _logger.LogWarning("No Content");
                     return NotFound();
                 }
+                _logger.LogInformation($"Book '{books.Name}' returned.");
                 return Ok(books);
             }
             catch (Exception ex)
@@ -111,6 +114,7 @@ namespace LibraryApp.Controllers
                     _logger.LogWarning("No Content");
                     return NoContent();
                 }
+                _logger.LogInformation($"Book '{bookReturn.Name}' created.");
                 return CreatedAtAction("PostBook", new { name = bookReturn.Name }, bookReturn);
             }
             catch (Exception ex)
@@ -137,6 +141,7 @@ namespace LibraryApp.Controllers
                 {
                     return NotFound();
                 }
+                _logger.LogInformation($"Book '{bookReturn.IdBook}' updated.");
                 return CreatedAtAction("UpdateBook", new { id = book.IdBook, name = bookReturn.Name }, bookReturn);
             }
             catch (Exception ex)
@@ -158,6 +163,7 @@ namespace LibraryApp.Controllers
                     _logger.LogWarning("No Content");
                     return NotFound();
                 }
+                _logger.LogInformation($"Book '{bookReturn.Name}' deleted.");
                 return CreatedAtAction("DeleteBook", new { id = bookReturn.IdBook, name = bookReturn.Name }, bookReturn);
             }
             catch (Exception ex)

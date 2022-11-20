@@ -37,13 +37,14 @@ namespace LibraryApp.Controllers
             _logger.LogInformation("GetAllPeople");
             try
             {
-                var person = personService.GetAllPeople();
-                if (person == null)
+                var people = personService.GetAllPeople().ToList();
+                if (people == null)
                 {
                     _logger.LogWarning("No Content");
                     return NoContent();
                 }
-                return Ok(person);
+                _logger.LogInformation($"'{people.Count}' Costumers returned.");
+                return Ok(people);
             }
             catch (Exception ex)
             {
@@ -58,13 +59,14 @@ namespace LibraryApp.Controllers
             _logger.LogInformation("GetPersonFromName");
             try
             {
-                var person = personService.GetPersonFromName(name);
-                if (person == null)
+                var people = personService.GetPersonFromName(name).ToList();
+                if (people == null)
                 {
                     _logger.LogWarning("No Content");
                     return NotFound();
                 }
-                return Ok(person);
+                _logger.LogInformation($"'{people.Count}' Costumers returned.");
+                return Ok(people);
             }
             catch (Exception ex)
             {
@@ -86,6 +88,7 @@ namespace LibraryApp.Controllers
                     _logger.LogWarning("No Content");
                     return NotFound();
                 }
+                _logger.LogInformation($"Costumer '{person.Name}' returned.");
                 return Ok(person);
             }
             catch (Exception ex)
@@ -109,6 +112,7 @@ namespace LibraryApp.Controllers
                     _logger.LogWarning("No Content");
                     return NoContent();
                 }
+                _logger.LogInformation($"Costumer '{personReturn.Name}' created.");
                 return CreatedAtAction("PostPerson", new { name = personReturn.Name }, personReturn);
             }
             catch (Exception ex)
@@ -135,6 +139,7 @@ namespace LibraryApp.Controllers
                 {
                     return NotFound();
                 }
+                _logger.LogInformation($"Costumer '{personReturn.Name}' updated.");
                 return CreatedAtAction("UpdatePerson", new { CPF = person.Cpf, name = personReturn.Name }, personReturn);
             }
             catch (Exception ex)
@@ -156,6 +161,7 @@ namespace LibraryApp.Controllers
                     _logger.LogWarning("No Content");
                     return NotFound();
                 }
+                _logger.LogInformation($"Costumer '{personReturn.Name}' deleted.");
                 return CreatedAtAction("DeletePerson", new { CPF = personReturn.Cpf, name = personReturn.Name }, personReturn);
             }
             catch (Exception ex)
