@@ -25,7 +25,12 @@ namespace LibraryApp.Repositories
             {
                 UserTb user = null;
                 user = (from users in _context.UserTbs where users.Email == userDto.Email select users).FirstOrDefault();
-                return userDto;
+                if (user == null)
+                    throw new Exception("Invalid Email.");
+                else if (!user.Password.Equals(userDto.Password))
+                    throw new Exception("Invalid Password.");
+                else               
+                    return userDto;
             }
             catch (Exception ex)
             {
