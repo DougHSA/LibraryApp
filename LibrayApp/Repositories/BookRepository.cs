@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace LibraryApp.Repositories
 {
-    public class BookRepository:IBookRepository
+    public class BookRepository
     {
         private readonly LibraryAppContext _context;
 
