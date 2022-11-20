@@ -52,6 +52,7 @@ namespace LibraryApp.Controllers
             }
         }
 
+        [AllowAnonymous]
         [HttpGet("GetBooksFromName/{name}")]
         public async Task<ActionResult> GetBooksFromName([FromRoute] string name)
         {
@@ -73,6 +74,7 @@ namespace LibraryApp.Controllers
             }
         }
 
+        [AllowAnonymous]
         [HttpGet("GetBooksFromId/{id}")]
         public async Task<ActionResult> GetBooksFromId([FromRoute] int id)
         {
