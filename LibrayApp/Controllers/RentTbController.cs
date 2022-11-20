@@ -32,12 +32,15 @@ namespace LibraryApp.Controllers
        
 
         [HttpGet("GetAllRents")]
-        public async Task<ActionResult> GetAll()
+        public async Task<ActionResult> GetAll([FromQuery] int pgNumber, [FromQuery] int pgSize)
         {
             _logger.LogInformation("GetAllRents");
             try
             {
-                var rents = rentService.GetAllRents();
+                var rents = rentService.GetAllRents()
+                    .Skip((pgNumber - 1) * pgSize)
+                    .Take(pgSize)
+                    .ToList();
                 if (rents == null)
                 {
                     _logger.LogWarning("No Content");
@@ -52,12 +55,15 @@ namespace LibraryApp.Controllers
             }
         }
         [HttpGet("GetAllRentsStatus/{status}")]
-        public async Task<ActionResult> GetAllRentsStatus([FromRoute] string status)
+        public async Task<ActionResult> GetAllRentsStatus([FromRoute] string status, [FromQuery] int pgNumber, [FromQuery] int pgSize)
         {
             _logger.LogInformation("GetAllRentsStatus");
             try
             {
-                var rents = rentService.GetAllRentsStatus(status).ToList();
+                var rents = rentService.GetAllRentsStatus(status)
+                    .Skip((pgNumber - 1) * pgSize)
+                    .Take(pgSize)
+                    .ToList();
                 if (rents == null)
                 {
                     _logger.LogWarning("No Content");
@@ -72,12 +78,15 @@ namespace LibraryApp.Controllers
             }
         }
         [HttpGet("GetRentsFromRenterCpf/{cpf}")]
-        public async Task<ActionResult> GetRentsFromRenterCpf([FromRoute] long cpf)
+        public async Task<ActionResult> GetRentsFromRenterCpf([FromRoute] long cpf, [FromQuery] int pgNumber, [FromQuery] int pgSize)
         {
             _logger.LogInformation("GetRentsFromName");
             try
             {
-                var rents = rentService.GetRentsFromRenterCpf(cpf);
+                var rents = rentService.GetRentsFromRenterCpf(cpf)
+                    .Skip((pgNumber - 1) * pgSize)
+                    .Take(pgSize)
+                    .ToList();
                 if (rents == null)
                 {
                     _logger.LogWarning("No Content");
@@ -93,13 +102,16 @@ namespace LibraryApp.Controllers
         }
 
         [HttpGet("GetRentsFromBookId/{id}")]
-        public async Task<ActionResult> GetRentsFromBookId([FromRoute] int id)
+        public async Task<ActionResult> GetRentsFromBookId([FromRoute] int id, [FromQuery] int pgNumber, [FromQuery] int pgSize)
         {
             _logger.LogInformation("GetRentsFromBookId");
 
             try
             {
-                var rents = rentService.GetRentsFromBookId(id);
+                var rents = rentService.GetRentsFromBookId(id)
+                    .Skip((pgNumber - 1) * pgSize)
+                    .Take(pgSize)
+                    .ToList(); 
                 if (rents == null)
                 {
                     _logger.LogWarning("No Content");
