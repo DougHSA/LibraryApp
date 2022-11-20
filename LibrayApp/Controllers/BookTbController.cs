@@ -30,7 +30,7 @@ namespace LibraryApp.Controllers
             bookService = new BookServices(_context);
         }
        
-
+        [AllowAnonymous]
         [HttpGet("GetAllBooks")]
         public async Task<ActionResult> GetAll()
         {
