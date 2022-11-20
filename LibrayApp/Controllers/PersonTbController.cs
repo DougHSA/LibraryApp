@@ -32,12 +32,15 @@ namespace LibraryApp.Controllers
        
 
         [HttpGet("GetAllPeople")]
-        public async Task<ActionResult> GetAllPeople()
+        public async Task<ActionResult> GetAllPeople([FromQuery] int pgNumber, [FromQuery] int pgSize)
         {
             _logger.LogInformation("GetAllPeople");
             try
             {
-                var people = personService.GetAllPeople().ToList();
+                var people = personService.GetAllPeople()
+                    .Skip((pgNumber - 1) * pgSize)
+                    .Take(pgSize)
+                    .ToList();
                 if (people == null)
                 {
                     _logger.LogWarning("No Content");
@@ -54,12 +57,15 @@ namespace LibraryApp.Controllers
         }
 
         [HttpGet("GetPersonFromName/{name}")]
-        public async Task<ActionResult> GetPersonFromName([FromRoute] string name)
+        public async Task<ActionResult> GetPersonFromName([FromRoute] string name, [FromQuery] int pgNumber, [FromQuery] int pgSize)
         {
             _logger.LogInformation("GetPersonFromName");
             try
             {
-                var people = personService.GetPersonFromName(name).ToList();
+                var people = personService.GetPersonFromName(name)
+                    .Skip((pgNumber - 1) * pgSize)
+                    .Take(pgSize)
+                    .ToList();
                 if (people == null)
                 {
                     _logger.LogWarning("No Content");

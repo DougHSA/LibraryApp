@@ -29,15 +29,18 @@ namespace LibraryApp.Controllers
             _context = context;
             bookService = new BookServices(_context);
         }
-       
+
         [AllowAnonymous]
         [HttpGet("GetAllBooks")]
-        public async Task<ActionResult> GetAll()
+        public async Task<ActionResult> GetAll([FromQuery] int pgNumber, [FromQuery] int pgSize)
         {
             _logger.LogInformation("GetAllBooks");
             try
             {
-                var books = bookService.GetAllBooks().ToList();
+                var books = bookService.GetAllBooks()
+                    .Skip((pgNumber-1)*pgSize)
+                    .Take(pgSize)
+                    .ToList();
                 if (books == null)
                 {
                     _logger.LogWarning("No Content");
@@ -55,12 +58,15 @@ namespace LibraryApp.Controllers
 
         [AllowAnonymous]
         [HttpGet("GetBooksFromName/{name}")]
-        public async Task<ActionResult> GetBooksFromName([FromRoute] string name)
+        public async Task<ActionResult> GetBooksFromName([FromRoute] string name, [FromQuery] int pgNumber, [FromQuery] int pgSize)
         {
             _logger.LogInformation("GetBooksFromName");
             try
             {
-                var books = bookService.GetBooksFromName(name).ToList();
+                var books = bookService.GetBooksFromName(name)
+                    .Skip((pgNumber - 1) * pgSize)
+                    .Take(pgSize)
+                    .ToList(); ;
                 if (books == null)
                 {
                     _logger.LogWarning("No Content");
